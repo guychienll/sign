@@ -14,13 +14,20 @@
     "gatsby-plugin-sharp": "^3.4.1",
     "gatsby-source-filesystem": "^3.4.0",
     "gatsby-transformer-sharp": "^3.4.0",
+    "jsqr": "^1.4.0",
     "prop-types": "^15.7.2",
+    "qrcode.react": "^1.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-helmet": "^6.1.0"
+    "react-helmet": "^6.1.0",
+    "styled-components": "^5.3.0",
+    "styled-reset": "^4.3.4"
   },
   "devDependencies": {
-    "prettier": "2.2.1"
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.25.0",
+    "eslint-plugin-react": "^7.23.2",
+    "prettier": "^2.2.1"
   },
   "keywords": [
     "gatsby"

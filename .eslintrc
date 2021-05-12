@@ -1,0 +1,30 @@
+{
+  "parserOptions": {
+    "sourceType": "module",
+    "allowImportExportEverywhere": false,
+    "ecmaFeatures": {
+      "globalReturn": false
+    },
+    "globalReturn": {
+      "globalReturn": "path/to/config.js"
+    }
+  },
+  "parser": "babel-eslint",
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "env": {
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "rules": {
+    "no-unused-vars": "warn",
+    "react/prop-types": 0
+  }
+}
+
