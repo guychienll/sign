@@ -4,6 +4,8 @@ import jsQR from "jsqr";
 
 const Landing = () => {
   const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+
   const [requestId, setRequestId] = useState(0);
   const [code, setCode] = useState(null);
 
@@ -21,7 +23,7 @@ const Landing = () => {
   const tick = useCallback(() => {
     const video = videoRef.current;
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
-      const canvas = document.createElement("canvas");
+      const canvas = canvasRef.current;
       const context = canvas.getContext("2d");
       canvas.height = video.videoHeight;
       canvas.width = video.videoWidth;
@@ -57,6 +59,7 @@ const Landing = () => {
   return (
     <div>
       <Video autoplay playsinline muted ref={videoRef} />
+      <canvas ref={canvasRef} />
       <button onClick={launchCamera}>launch camera</button>
       <pre>{JSON.stringify(code, null, 2)}</pre>
     </div>
