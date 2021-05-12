@@ -26,6 +26,14 @@ module.exports = {
         theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        permissions: {
+          "audio-capture": {
+            description: "Required to capture audio using getUserMedia()",
+          },
+          "video-capture": {
+            description: "Required to capture video using getUserMedia()",
+          },
+        },
       },
     },
     `gatsby-plugin-gatsby-cloud`,
