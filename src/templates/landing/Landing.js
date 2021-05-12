@@ -22,12 +22,12 @@ const Landing = () => {
 
   const tick = useCallback(() => {
     const video = videoRef.current;
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+    canvas.height = video.videoHeight;
+    canvas.width = video.videoWidth;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
-      const canvas = canvasRef.current;
-      const context = canvas.getContext("2d");
-      canvas.height = video.videoHeight;
-      canvas.width = video.videoWidth;
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
       const code = jsQR(imageData.data, imageData.width, imageData.height);
       if (code) {
