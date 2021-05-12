@@ -42,8 +42,8 @@ const Landing = () => {
     navigator.mediaDevices
       .getUserMedia({
         video: {
-          // facingMode: "environment",
-          facingMode: "user",
+          facingMode: "environment",
+          // facingMode: "user",
         },
       })
       .then(stream => {
