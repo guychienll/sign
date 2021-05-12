@@ -56,7 +56,7 @@ const Landing = () => {
 
   return (
     <div>
-      <Video autoplay playsinline controls={false} ref={videoRef} />
+      <Video autoplay playsinline muted ref={videoRef} />
       <button onClick={launchCamera}>launch camera</button>
       <pre>{JSON.stringify(code, null, 2)}</pre>
     </div>
