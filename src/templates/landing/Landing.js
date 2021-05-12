@@ -32,7 +32,7 @@ const Landing = () => {
       const code = jsQR(imageData.data, imageData.width, imageData.height);
       if (code) {
         setCode(code.data);
-        closeCamera();
+        // closeCamera();
         return;
       }
     }
@@ -51,8 +51,7 @@ const Landing = () => {
       .then(stream => {
         videoRef.current.srcObject = stream;
         videoRef.current.play();
-        const id = window.requestAnimationFrame(tick);
-        setRequestId(id);
+        tick();
       });
   }, []);
 
