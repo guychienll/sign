@@ -22,6 +22,7 @@ const Landing = () => {
 
   const tick = useCallback(() => {
     const video = videoRef.current;
+
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
     canvas.height = video.videoHeight;
@@ -49,7 +50,11 @@ const Landing = () => {
         },
       })
       .then(stream => {
-        videoRef.current.srcObject = stream;
+        const video = videoRef.current;
+        video.setAttribute("autoplay", "");
+        video.setAttribute("muted", "");
+        video.setAttribute("playsinline", "");
+        video.srcObject = stream;
         videoRef.current.play();
         tick();
       });
@@ -57,7 +62,7 @@ const Landing = () => {
 
   return (
     <div>
-      <Video autoplay playsinline muted ref={videoRef} />
+      <Video ref={videoRef} />
       <canvas ref={canvasRef} />
       <button onClick={launchCamera}>launch camera</button>
       <pre>{JSON.stringify(code, null, 2)}</pre>
