@@ -56,7 +56,8 @@ const Landing = () => {
 
   return (
     <Wrapper>
-      <Video ref={videoRef} />
+      <Video visible={requestId !== 0} ref={videoRef} />
+      <div>{JSON.stringify(code, null, 2)}</div>
       <button onClick={launchCamera}>launch</button>
     </Wrapper>
   );
@@ -74,6 +75,7 @@ const Video = styled.video`
   width: 300px;
   height: 70vh;
   border: 1px solid #000;
+  display: ${({ visible }) => (visible ? "block" : "none")};
 `;
 
 export default Landing;
