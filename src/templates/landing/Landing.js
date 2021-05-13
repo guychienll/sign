@@ -22,18 +22,17 @@ const Landing = () => {
 
   const tick = useCallback(() => {
     const video = videoRef.current;
-
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-    canvas.height = video.videoHeight;
-    canvas.width = video.videoWidth;
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      canvas.height = video.videoHeight;
+      canvas.width = video.videoWidth;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
       const code = jsQR(imageData.data, imageData.width, imageData.height);
       if (code) {
         setCode(code.data);
-        // closeCamera();
+        closeCamera();
         return;
       }
     }
@@ -43,12 +42,7 @@ const Landing = () => {
 
   const launchCamera = useCallback(() => {
     navigator.mediaDevices
-      .getUserMedia({
-        video: {
-          facingMode: "environment",
-          // facingMode: "user",
-        },
-      })
+      .getUserMedia({ video: { facingMode: "environment" } })
       .then(stream => {
         const video = videoRef.current;
         video.setAttribute("autoplay", "");
@@ -61,18 +55,25 @@ const Landing = () => {
   }, []);
 
   return (
-    <div>
+    <Wrapper>
       <Video ref={videoRef} />
-      <canvas ref={canvasRef} />
-      <button onClick={launchCamera}>launch camera</button>
-      <pre>{JSON.stringify(code, null, 2)}</pre>
-    </div>
+      <button onClick={launchCamera}>launch</button>
+    </Wrapper>
   );
 };
 
+const Wrapper = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+`;
+
 const Video = styled.video`
-  width: 500px;
-  height: 500px;
+  width: 300px;
+  height: 70vh;
+  border: 1px solid #000;
 `;
 
 export default Landing;
