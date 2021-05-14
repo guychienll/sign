@@ -65,9 +65,13 @@ const getIsIdentityValid = identity => {
 
 const UserInfo = () => {
   const [taiwanId, setTaiwanId] = useState({ value: "" });
-  const [code, setCode] = useState(
-    JSON.parse(window.localStorage.getItem("userInfo"))
-  );
+  const [code, setCode] = useState(null);
+
+  useEffect(() => {
+    if (typeof window) {
+      setCode(JSON.parse(window.localStorage.getItem("userInfo")));
+    }
+  }, []);
 
   const onFinish = values => {
     window.localStorage.setItem("userInfo", JSON.stringify(values));
