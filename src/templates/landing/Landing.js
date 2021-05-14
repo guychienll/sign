@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import QRCode from "qrcode.react";
+import { Button, Form, Input } from "antd";
 
 const Landing = () => {
   return <Wrapper></Wrapper>;

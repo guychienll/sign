@@ -64,12 +64,17 @@ const getIsIdentityValid = identity => {
 };
 
 const UserInfo = () => {
+  const [form] = Form.useForm();
   const [taiwanId, setTaiwanId] = useState({ value: "" });
   const [code, setCode] = useState(null);
 
   useEffect(() => {
     if (typeof window) {
-      setCode(JSON.parse(window.localStorage.getItem("userInfo")));
+      const parse = JSON.parse(window.localStorage.getItem("userInfo"));
+      if (parse) {
+        setCode(parse);
+        form.setFieldsValue(parse);
+      }
     }
   }, []);
 
@@ -83,8 +88,8 @@ const UserInfo = () => {
 
   return (
     <Wrapper>
-      <QRCode value={JSON.stringify(code)} style={{ marginBottom: 24 }} />
       <Form
+        form={form}
         name="basic"
         initialValues={code}
         onFinish={onFinish}

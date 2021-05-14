@@ -2,7 +2,11 @@ import React from "react";
 import { Reset } from "styled-reset";
 import "antd/dist/antd.css";
 import { Layout as AntLayout, Menu } from "antd";
-import { MenuOutlined, UserOutlined, CameraOutlined } from "@ant-design/icons";
+import {
+  EnvironmentOutlined,
+  UserOutlined,
+  CameraOutlined,
+} from "@ant-design/icons";
 import { navigate } from "gatsby-link";
 
 const { Header, Content, Footer } = AntLayout;
@@ -21,11 +25,20 @@ const Layout = ({ children }) => {
               key="1"
               icon={<CameraOutlined />}
             />
+
+            <Menu.Item
+              onClick={async () => {
+                await navigate("/location-info");
+              }}
+              key="2"
+              icon={<EnvironmentOutlined />}
+            />
+
             <Menu.Item
               onClick={async () => {
                 await navigate("/user-info");
               }}
-              key="2"
+              key="3"
               icon={<UserOutlined />}
             />
           </Menu>

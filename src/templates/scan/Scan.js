@@ -2,6 +2,8 @@ import React, { useCallback, useRef, useState } from "react";
 import styled from "styled-components";
 import jsQR from "jsqr";
 import { Button } from "antd";
+import firebase from "firebase/app";
+import { uid } from "uid";
 
 const Scan = () => {
   const videoRef = useRef(null);
@@ -33,6 +35,20 @@ const Scan = () => {
       const code = jsQR(imageData.data, imageData.width, imageData.height);
       if (code) {
         setCode(code.data);
+        const l = JSON.parse(code.data);
+        const u = JSON.parse(window.localStorage.getItem("userInfo"));
+        firebase
+          .database()
+          .ref(`records/${uid(16)}`)
+          .set({
+            locationName: l.username,
+            locationPhone: l.phone,
+            locationAddress: l.address,
+            userName: u.username,
+            userPhone: u.phone,
+            taiwanId: u.id,
+          });
+
         closeCamera();
         return;
       }

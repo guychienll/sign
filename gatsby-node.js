@@ -4,12 +4,14 @@ const { createFilePath } = require("gatsby-source-filesystem");
 const URL_PATH = {
   landing: "/",
   userInfo: "/user-info",
+  locationInfo: "/location-info",
   scan: "/scan",
 };
 
 const templates = {
   landing: path.resolve("src/templates/landing/Landing.js"),
   userInfo: path.resolve("src/templates/userInfo/UserInfo.js"),
+  locationInfo: path.resolve("src/templates/locationInfo/LocationInfo.js"),
   scan: path.resolve("src/templates/scan/Scan.js"),
 };
 
@@ -43,6 +45,12 @@ exports.createPages = async ({ actions }) => {
   createPage({
     path: URL_PATH.scan,
     component: templates.scan,
+    context: {},
+  });
+
+  createPage({
+    path: URL_PATH.locationInfo,
+    component: templates.locationInfo,
     context: {},
   });
 };
