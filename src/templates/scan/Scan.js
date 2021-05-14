@@ -37,6 +37,10 @@ const Scan = () => {
         setCode(code.data);
         const l = JSON.parse(code.data);
         const u = JSON.parse(window.localStorage.getItem("userInfo"));
+        console.log("------location-----");
+        console.log(l);
+        console.log("------user-----");
+        console.log(u);
         firebase
           .database()
           .ref(`records/${uid(16)}`)
