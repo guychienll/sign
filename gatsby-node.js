@@ -9,7 +9,7 @@ const URL_PATH = {
 
 const templates = {
   landing: path.resolve("src/templates/landing/Landing.js"),
-  userInfo: path.resolve("src/templates/userInfo/userInfo.js"),
+  userInfo: path.resolve("src/templates/userInfo/UserInfo.js"),
   scan: path.resolve("src/templates/scan/Scan.js"),
 };
 
