@@ -16,11 +16,15 @@ const Admin = () => {
   const [form] = Form.useForm();
   const [locationInfo, setLocationInfo] = useState(null);
   const [qrCodeLink, setQrCodeLink] = useState("");
+  const [disabledEdit, setDisabledEdit] = useState(false);
 
   const fetchLocation = useCallback(async uid => {
     const resp = await app.actions.getLocation(uid);
     setLocationInfo(resp);
     form.setFieldsValue(resp);
+    if (resp) {
+      setDisabledEdit(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -32,7 +36,8 @@ const Admin = () => {
 
   useEffect(() => {
     if (typeof document && locationInfo) {
-      const qrcode = document.querySelector("#qrcode"); const link = qrcode
+      const qrcode = document.querySelector("#qrcode");
+      const link = qrcode
         .toDataURL("image/png")
         .replace("image/png", "image/octet-stream");
       setQrCodeLink(link);
@@ -41,6 +46,7 @@ const Admin = () => {
 
   const onSubmit = async values => {
     await app.actions.setLocation(values);
+    setDisabledEdit(true);
   };
 
   const onFinishFailed = errorInfo => {
@@ -73,6 +79,7 @@ const Admin = () => {
               rules={[{ required: true, message: "請輸入地點名稱" }]}
             >
               <Input
+                disabled={disabledEdit}
                 onChange={e => {
                   setLocationInfo({
                     ...locationInfo,
@@ -88,6 +95,8 @@ const Admin = () => {
               rules={[{ required: true, message: "請輸入地點聯絡電話" }]}
             >
               <Input
+                maxLength={10}
+                disabled={disabledEdit}
                 onChange={e => {
                   setLocationInfo({
                     ...locationInfo,
@@ -97,14 +106,30 @@ const Admin = () => {
               />
             </Form.Item>
 
-            <Form.Item>
-              <Button
-                style={{ width: "100%", marginBottom: 20 }}
-                htmlType="submit"
-              >
-                儲存地點資料
-              </Button>
-            </Form.Item>
+            {!disabledEdit && (
+              <Form.Item>
+                <Button
+                  disabled={!locationInfo}
+                  style={{ width: "100%" }}
+                  htmlType="submit"
+                >
+                  儲存地點資料
+                </Button>
+              </Form.Item>
+            )}
+
+            {disabledEdit && (
+              <Form.Item>
+                <Button
+                  onClick={() => {
+                    setDisabledEdit(false);
+                  }}
+                  style={{ width: "100%" }}
+                >
+                  編輯地點資料
+                </Button>
+              </Form.Item>
+            )}
           </Form>
 
           <Button

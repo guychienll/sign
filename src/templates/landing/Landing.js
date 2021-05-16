@@ -18,12 +18,15 @@ const Landing = props => {
   const [userInfo, setUserInfo] = useState(null);
   const [locationInfo, setLocationInfo] = useState(null);
   const [signStatus, setSignStatus] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [form] = Form.useForm();
 
   const fetchLocation = useCallback(async locationId => {
+    setIsLoading(true);
     const resp = await app.actions.getLocation(locationId);
     setLocationInfo(resp);
     form.setFieldsValue(resp);
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
@@ -59,19 +62,22 @@ const Landing = props => {
     alert("check form");
   };
 
+  if (isLoading) {
+    return (
+      <Wrapper>
+        <Spin />
+      </Wrapper>
+    );
+  }
+
   return (
     <Wrapper>
-      {!location_id && (
+      {!locationInfo && (
         <Result status="warning" title="無地點資訊" extra={[]} />
       )}
-      {location_id && !signStatus && (
+      {locationInfo && !signStatus && (
         <Fragment>
-          {!locationInfo && (
-            <div className="location-name">獲取地點資訊中...</div>
-          )}
-          {locationInfo && (
-            <div className="location-name">{locationInfo.locationName}</div>
-          )}
+          <div className="location-name">{locationInfo.locationName}</div>
           <Form
             form={form}
             name="basic"
@@ -86,9 +92,7 @@ const Landing = props => {
             <Form.Item
               label="姓名(Full Name)"
               name="username"
-              rules={[
-                { required: true, message: "請輸入姓名" },
-              ]}
+              rules={[{ required: true, message: "請輸入姓名" }]}
             >
               <Input />
             </Form.Item>
@@ -96,11 +100,9 @@ const Landing = props => {
             <Form.Item
               label="手機(Phone)"
               name="phone"
-              rules={[
-                { required: true, message: "請輸入手機" },
-              ]}
+              rules={[{ required: true, message: "請輸入手機" }]}
             >
-              <Input />
+              <Input maxLength={10} />
             </Form.Item>
 
             {userInfo ? (
