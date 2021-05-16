@@ -3,7 +3,7 @@ import { Reset } from "styled-reset";
 import "antd/dist/antd.css";
 import { Layout as AntLayout } from "antd";
 
-const { Header, Content, Footer } = AntLayout;
+const { Content, Footer } = AntLayout;
 
 const Layout = ({ children }) => {
   return (
