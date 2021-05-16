@@ -41,14 +41,20 @@ export const Provider = props => {
       firebase
         .auth()
         .signInWithPopup(provider)
-        .then(result => {})
-        .catch(error => {});
+        .then(result => {
+          console.log(result);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     logout: () => {
       firebase
         .auth()
         .signOut()
-        .catch(error => {});
+        .catch(error => {
+          console.log(error);
+        });
     },
   };
 
