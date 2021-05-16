@@ -80,6 +80,7 @@ const Landing = props => {
           <div className="location-name">{locationInfo.locationName}</div>
           <Form
             form={form}
+            size="large"
             name="basic"
             initialValues={userInfo}
             onFinish={onSubmit}
