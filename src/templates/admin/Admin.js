@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import styled from "styled-components";
@@ -14,6 +15,7 @@ const Admin = () => {
   const app = useContext(Context);
   const [form] = Form.useForm();
   const [locationInfo, setLocationInfo] = useState(null);
+  const [qrCodeLink, setQrCodeLink] = useState("");
 
   const fetchLocation = useCallback(async uid => {
     const resp = await app.actions.getLocation(uid);
@@ -28,6 +30,16 @@ const Admin = () => {
     fetchLocation(app.state.uid).then(() => {});
   }, [app.state.uid, app.state.initialized]);
 
+  useEffect(() => {
+    if (typeof document && locationInfo) {
+      const qrcode = document.querySelector("#qrcode");
+      const link = qrcode
+        .toDataURL("image/png")
+        .replace("image/png", "image/octet-stream");
+      setQrCodeLink(link);
+    }
+  }, [locationInfo]);
+
   const onSubmit = async values => {
     await app.actions.setLocation(values);
   };
@@ -35,12 +47,15 @@ const Admin = () => {
   const onFinishFailed = errorInfo => {
     alert(JSON.stringify(errorInfo, null, 2));
   };
+
   return (
     <Wrapper>
       {app.state.uid && (
         <Fragment>
           {locationInfo && (
             <QRCode
+              renderAs="canvas"
+              id="qrcode"
               value={`${window.location.origin}/?location_id=${app.state.uid}`}
               style={{ marginBottom: 24 }}
             />
@@ -93,7 +108,13 @@ const Admin = () => {
             </Form.Item>
           </Form>
 
-          <Button style={{ width: "80%", marginBottom: 20 }} onClick={() => {}}>
+          <Button
+            disabled={!locationInfo}
+            style={{ width: "80%", marginBottom: 20 }}
+            onClick={() => {
+              window.open(qrCodeLink);
+            }}
+          >
             下載 QR Code
           </Button>
 
