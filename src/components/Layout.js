@@ -8,7 +8,8 @@ import { createGlobalStyle } from "styled-components";
 const { Content, Footer } = AntLayout;
 
 const Global = createGlobalStyle`
-  body * {
+  .ant-form-item-required::before {
+    display: none !important;
   }
 `;
 

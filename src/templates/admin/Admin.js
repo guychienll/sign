@@ -63,6 +63,7 @@ const Admin = () => {
           <Form
             form={form}
             name="basic"
+            size="large"
             initialValues={locationInfo}
             onFinish={onSubmit}
             onFinishFailed={onFinishFailed}
@@ -108,6 +109,7 @@ const Admin = () => {
           </Form>
 
           <Button
+            size="large"
             disabled={!locationInfo}
             style={{ width: "80%", marginBottom: 20 }}
             onClick={() => {
@@ -118,6 +120,7 @@ const Admin = () => {
           </Button>
 
           <Button
+            size="large"
             style={{ width: "80%", marginBottom: 20 }}
             onClick={async () => {
               await app.actions.exportRecords(app.state.uid);
@@ -130,6 +133,7 @@ const Admin = () => {
 
       {!app.state.uid ? (
         <Button
+          size="large"
           style={{ width: "80%" }}
           onClick={() => {
             app.actions.login();
@@ -139,6 +143,7 @@ const Admin = () => {
         </Button>
       ) : (
         <Button
+          size="large"
           style={{ width: "80%", marginTop: "auto" }}
           onClick={() => {
             app.actions.logout();

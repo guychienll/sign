@@ -74,6 +74,7 @@ const Landing = props => {
           )}
           <Form
             form={form}
+            size="large"
             name="basic"
             initialValues={userInfo}
             onFinish={onSubmit}
