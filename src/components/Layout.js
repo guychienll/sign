@@ -9,7 +9,7 @@ import { Helmet } from "react-helmet";
 const { Content, Footer } = AntLayout;
 
 const Global = createGlobalStyle`
-  * {
+  body * {
     font-family: 'Noto Sans TC', sans-serif;
   }
   .ant-form-item-required::before {
@@ -31,7 +31,10 @@ const Layout = ({ children }) => {
     <div style={{ display: "flex", width: "100%", minHeight: "100vh" }}>
       <Reset />
       <Global />
-      <Helmet title="foo bar" defer={false}></Helmet>
+      <Helmet title="foo bar" defer={false}>
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet" />
+      </Helmet>
       <AntLayout>
         <Content
           style={{
