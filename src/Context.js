@@ -10,7 +10,7 @@ let actions = {};
 const columns = ["username", "phone", "created"];
 const dataToCsv = (headers, data) => {
   const content = data.map(wrapper => wrapper.join(",")).join("\n");
-  const header = headers.join("\n");
+  const header = headers.join(",");
   window.open(encodeURI(`data:text/csv;charset=utf-8,${header}\n${content}`));
 };
 
