@@ -7,11 +7,25 @@ export const Context = createContext({});
 
 let actions = {};
 
+export const download = (filename, uri) => {
+  const link = document.createElement("a");
+  if (link.download !== undefined) {
+    link.setAttribute("href", uri);
+    link.setAttribute("download", filename);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } else {
+    window.open(uri);
+  }
+}
+
 const columns = ["username", "phone", "created"];
 const dataToCsv = (headers, data) => {
   const content = data.map(wrapper => wrapper.join(",")).join("\n");
   const header = headers.join(",");
-  window.open(encodeURI(`data:text/csv;charset=utf-8,${header}\n${content}`));
+  download("records.csv", encodeURI(`data:text/csv;charset=utf-8,${header}\n${content}`));
 };
 
 export const Provider = props => {

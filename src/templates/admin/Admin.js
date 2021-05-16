@@ -9,7 +9,7 @@ import React, {
 import styled from "styled-components";
 import QRCode from "qrcode.react";
 import { Button, Empty, Form, Input, Spin } from "antd";
-import { Context } from "../../Context";
+import { Context, download } from "../../Context";
 
 const Admin = () => {
   const app = useContext(Context);
@@ -111,7 +111,7 @@ const Admin = () => {
             disabled={!locationInfo}
             style={{ width: "80%", marginBottom: 20 }}
             onClick={() => {
-              window.open(qrCodeLink);
+              download("QR_code.png", qrCodeLink)
             }}
           >
             下載 QR Code
