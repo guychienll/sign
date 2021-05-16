@@ -2,12 +2,9 @@ import React from "react";
 import { Reset } from "styled-reset";
 import "antd/dist/antd.css";
 import { Layout as AntLayout, Menu } from "antd";
-import {
-  EnvironmentOutlined,
-  UserOutlined,
-  CameraOutlined,
-} from "@ant-design/icons";
+import { EnvironmentOutlined, HomeOutlined } from "@ant-design/icons";
 import { navigate } from "gatsby-link";
+import { URL_PATH } from "../constants";
 
 const { Header, Content, Footer } = AntLayout;
 
@@ -20,26 +17,18 @@ const Layout = ({ children }) => {
           <Menu theme="dark" mode="horizontal">
             <Menu.Item
               onClick={async () => {
-                await navigate("/scan");
+                await navigate("/");
               }}
               key="1"
-              icon={<CameraOutlined />}
+              icon={<HomeOutlined />}
             />
 
             <Menu.Item
               onClick={async () => {
-                await navigate("/location-info");
+                await navigate(URL_PATH.admin);
               }}
               key="2"
               icon={<EnvironmentOutlined />}
-            />
-
-            <Menu.Item
-              onClick={async () => {
-                await navigate("/user-info");
-              }}
-              key="3"
-              icon={<UserOutlined />}
             />
           </Menu>
         </Header>
