@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Result } from "antd";
 import firebase from "firebase";
 import qs from "query-string";
 
@@ -12,6 +12,7 @@ const Landing = props => {
   const { location_id } = qs.parse(search);
   const [userInfo, setUserInfo] = useState(null);
   const [locationInfo, setLocationInfo] = useState(null);
+  const [signStatus, setSignStatus] = useState(null);
   const [form] = Form.useForm();
 
   const fetchLocation = useCallback(async uid => {
@@ -41,7 +42,13 @@ const Landing = props => {
     firebase
       .database()
       .ref(`records/${location_id}`)
-      .push({ ...userInfo });
+      .push({ ...userInfo, created: Date.now() })
+      .then(() => {
+        setSignStatus("success");
+      })
+      .catch(() => {
+        setSignStatus("error");
+      });
   };
 
   const onSubmit = values => {
@@ -55,40 +62,72 @@ const Landing = props => {
 
   return (
     <Wrapper>
-      {locationInfo && <h2>{locationInfo.locationName}</h2>}
-      <Form
-        form={form}
-        name="basic"
-        initialValues={userInfo}
-        onFinish={onSubmit}
-        onFinishFailed={onFinishFailed}
-      >
-        <Form.Item
-          label="Username"
-          name="username"
-          rules={[{ required: true, message: "Please input your username!" }]}
-        >
-          <Input />
-        </Form.Item>
+      {!location_id && (
+        <Result status="warning" title="無店家資訊" extra={[]} />
+      )}
+      {location_id && !signStatus && (
+        <Fragment>
+          {!locationInfo && (
+            <div className="location-name">獲取店家資訊中...</div>
+          )}
+          {locationInfo && (
+            <div className="location-name">{locationInfo.locationName}</div>
+          )}
+          <Form
+            form={form}
+            name="basic"
+            initialValues={userInfo}
+            onFinish={onSubmit}
+            onFinishFailed={onFinishFailed}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Form.Item
+              label="使用者名稱"
+              name="username"
+              rules={[
+                { required: true, message: "Please input your username!" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
 
-        <Form.Item
-          label="Phone"
-          name="phone"
-          rules={[{ required: true, message: "Please input your username!" }]}
-        >
-          <Input />
-        </Form.Item>
+            <Form.Item
+              label="使用者聯絡電話"
+              name="phone"
+              rules={[
+                { required: true, message: "Please input your username!" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
 
-        {userInfo ? (
-          <Form.Item>
-            <Button onClick={onSign}>一鍵實名制</Button>
-          </Form.Item>
-        ) : (
-          <Form.Item>
-            <Button htmlType="submit">Save</Button>
-          </Form.Item>
-        )}
-      </Form>
+            {userInfo ? (
+              <Form.Item>
+                <Button style={{ width: "100%" }} onClick={onSign}>
+                  一鍵實名制
+                </Button>
+              </Form.Item>
+            ) : (
+              <Form.Item>
+                <Button style={{ width: "100%" }} htmlType="submit">
+                  儲存資訊
+                </Button>
+              </Form.Item>
+            )}
+          </Form>
+        </Fragment>
+      )}
+      {signStatus && (
+        <Result
+          status={signStatus}
+          title={signStatus === "success" ? "實名制登記成功" : "實名制登記失敗"}
+          subTitle=""
+          extra={[]}
+        />
+      )}
     </Wrapper>
   );
 };
@@ -99,6 +138,11 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 30px 10px;
+  & > .location-name {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
 `;
 
 export default Landing;
