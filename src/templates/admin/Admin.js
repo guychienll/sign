@@ -10,28 +10,26 @@ import QRCode from "qrcode.react";
 import { Button, Empty, Form, Input } from "antd";
 import { Context } from "../../Context";
 
-const columns = ['username', 'phone', 'created']
-const dataToCsv = data => {
-  const content = data.map(wrapper => wrapper.join(',')).join('\n')
-  const header = '姓名,電話,時間'
-  window.open(encodeURI(`data:text/csv;charset=utf-8,${header}\n${content}`))
-}
-const exportRecords = async locationId => {
-  const db = firebase.database()
-  const records = (await db.ref(`records/${locationId}`).get()).val()
-  const recordMapper = record =>
-    Array.from(
-      columns,
-      col => {
-        const value = record[col]
-        if (col === 'created') {
-          return (new Date(value)).toLocaleString().replaceAll(',', '')
-        }
-        return value
-      }
-    )
-  dataToCsv(Object.values(records).map(recordMapper))
-}
+// const columns = ["username", "phone", "created"];
+// const dataToCsv = data => {
+//   const content = data.map(wrapper => wrapper.join(",")).join("\n");
+//   const header = "姓名,電話,時間";
+//   window.open(encodeURI(`data:text/csv;charset=utf-8,${header}\n${content}`));
+// };
+
+// const exportRecords = async locationId => {
+//   const db = firebase.database();
+//   const records = (await db.ref(`records/${locationId}`).get()).val();
+//   const recordMapper = record =>
+//     Array.from(columns, col => {
+//       const value = record[col];
+//       if (col === "created") {
+//         return new Date(value).toLocaleString().replaceAll(",", "");
+//       }
+//       return value;
+//     });
+//   dataToCsv(Object.values(records).map(recordMapper));
+// };
 
 const Admin = () => {
   const app = useContext(Context);
@@ -117,7 +115,12 @@ const Admin = () => {
             下載 QR Code
           </Button>
 
-          <Button style={{ width: "80%", marginBottom: 20 }} onClick={() => exportRecords(app.state.uid)}>
+          <Button
+            style={{ width: "80%", marginBottom: 20 }}
+            onClick={async () => {
+              await app.actions.exportRecords(app.state.uid);
+            }}
+          >
             匯出紀錄
           </Button>
         </Fragment>

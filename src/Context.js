@@ -7,6 +7,13 @@ export const Context = createContext({});
 
 let actions = {};
 
+const columns = ["username", "phone", "created"];
+const dataToCsv = (headers, data) => {
+  const content = data.map(wrapper => wrapper.join(",")).join("\n");
+  const header = headers.join("\n");
+  window.open(encodeURI(`data:text/csv;charset=utf-8,${header}\n${content}`));
+};
+
 export const Provider = props => {
   const { children } = props;
   const [state, setState] = useState({
@@ -88,6 +95,23 @@ export const Provider = props => {
             reject("error");
           });
       });
+    },
+    exportRecords: async locationId => {
+      const records = (
+        await databaseService.current.ref(`records/${locationId}`).get()
+      ).val();
+      const recordMapper = record =>
+        Array.from(columns, col => {
+          const value = record[col];
+          if (col === "created") {
+            return new Date(value).toLocaleString().replaceAll(",", "");
+          }
+          return value;
+        });
+      dataToCsv(
+        ["姓名", "電話", "時間"],
+        Object.values(records).map(recordMapper)
+      );
     },
   };
 
