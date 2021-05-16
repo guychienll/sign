@@ -131,6 +131,7 @@ const Landing = props => {
             {!disabledEdit && (
               <Form.Item>
                 <Button
+                  type="primary"
                   disabled={!userInfo}
                   style={{ width: "100%" }}
                   htmlType="submit"
@@ -143,6 +144,7 @@ const Landing = props => {
             {disabledEdit && (
               <Form.Item>
                 <Button
+                  ghost
                   onClick={() => {
                     setDisabledEdit(false);
                   }}
@@ -155,6 +157,7 @@ const Landing = props => {
 
             <Form.Item>
               <Button
+                type="primary"
                 disabled={!disabledEdit || !userInfo}
                 style={{ width: "100%" }}
                 onClick={onSign}

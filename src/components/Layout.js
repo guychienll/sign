@@ -19,7 +19,7 @@ const Global = createGlobalStyle`
     color: #83c5be;
     border-color: #83c5be;
   }
-  .ant-btn-primary {
+  .ant-btn-primary, .ant-btn-primary:hover {
     background-color: #83c5be;
     border-color: #83c5be;
   }
