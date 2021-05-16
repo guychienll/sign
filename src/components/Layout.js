@@ -3,14 +3,21 @@ import { Reset } from "styled-reset";
 import "antd/dist/antd.css";
 import { Layout as AntLayout, Spin } from "antd";
 import { Context } from "../Context";
+import { createGlobalStyle } from "styled-components";
 
 const { Content, Footer } = AntLayout;
+
+const Global = createGlobalStyle`
+  body * {
+  }
+`;
 
 const Layout = ({ children }) => {
   const app = useContext(Context);
   return (
     <div style={{ display: "flex", width: "100%", minHeight: "100vh" }}>
       <Reset />
+      <Global />
       <AntLayout>
         <Content
           style={{
