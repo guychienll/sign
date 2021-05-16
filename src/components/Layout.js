@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Reset } from "styled-reset";
 import "antd/dist/antd.css";
-import { Layout as AntLayout } from "antd";
+import { Layout as AntLayout, Spin } from "antd";
+import { Context } from "../Context";
 
 const { Content, Footer } = AntLayout;
 
 const Layout = ({ children }) => {
+  const app = useContext(Context);
   return (
     <div style={{ display: "flex", width: "100%", minHeight: "100vh" }}>
       <Reset />
@@ -18,7 +20,8 @@ const Layout = ({ children }) => {
             overflow: "auto",
           }}
         >
-          {children}
+          {!app.state.initialized && <Spin />}
+          {app.state.initialized && children}
         </Content>
         <Footer style={{ textAlign: "center" }}>
           Sign ©2021 Created by{" "}
