@@ -110,6 +110,7 @@ const Admin = () => {
             {!disabledEdit && (
               <Form.Item>
                 <Button
+                  type="primary"
                   disabled={!locationInfo}
                   style={{ width: "100%" }}
                   htmlType="submit"
@@ -122,6 +123,7 @@ const Admin = () => {
             {disabledEdit && (
               <Form.Item>
                 <Button
+                  ghost
                   onClick={() => {
                     setDisabledEdit(false);
                   }}
@@ -135,6 +137,7 @@ const Admin = () => {
 
           <Button
             size="large"
+            type="primary"
             disabled={!locationInfo}
             style={{ width: "80%", marginBottom: 20 }}
             onClick={() => {
@@ -146,6 +149,7 @@ const Admin = () => {
 
           <Button
             size="large"
+            type="primary"
             style={{ width: "80%", marginBottom: 20 }}
             onClick={async () => {
               await app.actions.exportRecords(app.state.uid);
@@ -168,6 +172,7 @@ const Admin = () => {
         </Button>
       ) : (
         <Button
+          ghost
           size="large"
           style={{ width: "80%", marginTop: "auto" }}
           onClick={() => {

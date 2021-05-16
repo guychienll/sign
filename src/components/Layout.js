@@ -8,8 +8,19 @@ import { createGlobalStyle } from "styled-components";
 const { Content, Footer } = AntLayout;
 
 const Global = createGlobalStyle`
+  * {
+    font-family: 'Noto Sans TC', sans-serif;
+  }
   .ant-form-item-required::before {
     display: none !important;
+  }
+  .ant-btn-background-ghost {
+    color: #83c5be;
+    border-color: #83c5be;
+  }
+  .ant-btn-primary {
+    background-color: #83c5be;
+    border-color: #83c5be;
   }
 `;
 
