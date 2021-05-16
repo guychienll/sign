@@ -31,7 +31,7 @@ const Layout = ({ children }) => {
     <div style={{ display: "flex", width: "100%", minHeight: "100vh" }}>
       <Reset />
       <Global />
-      <Helmet title="foo bar" defer={false}>
+      <Helmet title="實名制" defer={false}>
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet" />
       </Helmet>
@@ -48,7 +48,7 @@ const Layout = ({ children }) => {
           {app.state.initialized && children}
         </Content>
         <Footer style={{ textAlign: "center" }}>
-          Sign ©2021 Created by<br />
+          Sign ©2021 Created by<br /><br />
           <a href="https://github.com/guychienll">@guychienll</a>&nbsp;&amp;&nbsp;<a href="https://github.com/riljian">@riljian</a>
         </Footer>
       </AntLayout>

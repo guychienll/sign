@@ -19,8 +19,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `sign`,
-        short_name: `sign`,
+        name: `實名制`,
+        short_name: `實名制`,
         start_url: `/`,
         background_color: `#f8f8f8`,
         theme_color: `#f8f8f8`,
