@@ -48,9 +48,8 @@ const Layout = ({ children }) => {
           {app.state.initialized && children}
         </Content>
         <Footer style={{ textAlign: "center" }}>
-          Sign ©2021 Created by{" "}
-          <a href="https://github.com/guychienll">@guychienll</a> &{" "}
-          <a href="https://github.com/riljian">@riljian</a>
+          Sign ©2021 Created by<br />
+          <a href="https://github.com/guychienll">@guychienll</a>&nbsp;&amp;&nbsp;<a href="https://github.com/riljian">@riljian</a>
         </Footer>
       </AntLayout>
     </div>
