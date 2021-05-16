@@ -92,28 +92,42 @@ const Admin = () => {
             </Form.Item>
 
             <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Save
+              <Button
+                style={{ width: "100%", marginBottom: 20 }}
+                htmlType="submit"
+              >
+                儲存地點資料
               </Button>
             </Form.Item>
           </Form>
-          <Button
-            onClick={() => {
-              app.actions.logout();
-            }}
-          >
-            sign out
+
+          <Button style={{ width: "80%", marginBottom: 20 }} onClick={() => {}}>
+            下載 QR Code
+          </Button>
+
+          <Button style={{ width: "80%", marginBottom: 20 }} onClick={() => {}}>
+            匯出紀錄
           </Button>
         </Fragment>
       )}
 
-      {!app.state.uid && (
+      {!app.state.uid ? (
         <Button
+          style={{ width: "80%" }}
           onClick={() => {
             app.actions.login();
           }}
         >
-          sign in
+          使用 google 登入 / 註冊
+        </Button>
+      ) : (
+        <Button
+          style={{ width: "80%" }}
+          onClick={() => {
+            app.actions.logout();
+          }}
+        >
+          登出
         </Button>
       )}
     </Wrapper>
