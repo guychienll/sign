@@ -21,7 +21,7 @@ module.exports = {
       options: {
         name: `實名制`,
         short_name: `實名制`,
-        start_url: `/`,
+        start_url: `/admin`,
         background_color: `#f8f8f8`,
         theme_color: `#f8f8f8`,
         display: `standalone`,
