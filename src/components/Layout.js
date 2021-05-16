@@ -4,6 +4,7 @@ import "antd/dist/antd.css";
 import { Layout as AntLayout, Spin } from "antd";
 import { Context } from "../Context";
 import { createGlobalStyle } from "styled-components";
+import { Helmet } from "react-helmet";
 
 const { Content, Footer } = AntLayout;
 
@@ -30,6 +31,7 @@ const Layout = ({ children }) => {
     <div style={{ display: "flex", width: "100%", minHeight: "100vh" }}>
       <Reset />
       <Global />
+      <Helmet title="foo bar" defer={false}></Helmet>
       <AntLayout>
         <Content
           style={{

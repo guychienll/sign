@@ -20,6 +20,7 @@ const Landing = props => {
   const [signStatus, setSignStatus] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [form] = Form.useForm();
+  const [disabledEdit, setDisabledEdit] = useState(false);
 
   const fetchLocation = useCallback(async locationId => {
     setIsLoading(true);
@@ -41,6 +42,9 @@ const Landing = props => {
       const parse = JSON.parse(window.localStorage.getItem("userInfo"));
       setUserInfo(parse);
       form.setFieldsValue(parse);
+      if (parse) {
+        setDisabledEdit(true);
+      }
     }
   }, []);
 
@@ -56,6 +60,7 @@ const Landing = props => {
   const onSubmit = values => {
     setUserInfo(values);
     window.localStorage.setItem("userInfo", JSON.stringify(values));
+    setDisabledEdit(true);
   };
 
   const onFinishFailed = errorInfo => {
@@ -91,34 +96,72 @@ const Landing = props => {
             }}
           >
             <Form.Item
-              label="姓名(Full Name)"
+              label="姓名 ( Full Name )"
               name="username"
               rules={[{ required: true, message: "請輸入姓名" }]}
             >
-              <Input />
+              <Input
+                onChange={e => {
+                  setUserInfo({
+                    ...userInfo,
+                    username: e.target.value,
+                  });
+                }}
+                disabled={disabledEdit}
+              />
             </Form.Item>
 
             <Form.Item
-              label="手機(Phone)"
+              label="手機 ( Phone )"
               name="phone"
               rules={[{ required: true, message: "請輸入手機" }]}
             >
-              <Input maxLength={10} />
+              <Input
+                disabled={disabledEdit}
+                onChange={e => {
+                  setUserInfo({
+                    ...userInfo,
+                    phone: e.target.value,
+                  });
+                }}
+                maxLength={10}
+              />
             </Form.Item>
 
-            {userInfo ? (
+            {!disabledEdit && (
               <Form.Item>
-                <Button style={{ width: "100%" }} onClick={onSign}>
-                  一鍵實名制
-                </Button>
-              </Form.Item>
-            ) : (
-              <Form.Item>
-                <Button style={{ width: "100%" }} htmlType="submit">
+                <Button
+                  disabled={!userInfo}
+                  style={{ width: "100%" }}
+                  htmlType="submit"
+                >
                   儲存資訊
                 </Button>
               </Form.Item>
             )}
+
+            {disabledEdit && (
+              <Form.Item>
+                <Button
+                  onClick={() => {
+                    setDisabledEdit(false);
+                  }}
+                  style={{ width: "100%" }}
+                >
+                  編輯資訊
+                </Button>
+              </Form.Item>
+            )}
+
+            <Form.Item>
+              <Button
+                disabled={!disabledEdit || !userInfo}
+                style={{ width: "100%" }}
+                onClick={onSign}
+              >
+                一鍵實名制
+              </Button>
+            </Form.Item>
           </Form>
         </Fragment>
       )}

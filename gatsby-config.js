@@ -22,10 +22,10 @@ module.exports = {
         name: `sign`,
         short_name: `sign`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        background_color: `#f8f8f8`,
+        theme_color: `#f8f8f8`,
         display: `standalone`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/sign.png`, // This path is relative to the root of the site.
         permissions: {
           "audio-capture": {
             description: "Required to capture audio using getUserMedia()",
