@@ -8,7 +8,6 @@ import React, {
 import styled from "styled-components";
 import QRCode from "qrcode.react";
 import { Button, Empty, Form, Input } from "antd";
-import firebase from "firebase";
 import { Context } from "../../Context";
 import { HOST } from "../../constants";
 
@@ -18,28 +17,22 @@ const Admin = () => {
   const [locationInfo, setLocationInfo] = useState(null);
 
   const fetchLocation = useCallback(async uid => {
-    const resp = (
-      await firebase.database().ref(`locations/${uid}`).get()
-    ).val();
+    const resp = await app.actions.getLocation(uid);
     setLocationInfo(resp);
     form.setFieldsValue(resp);
   }, []);
 
   useEffect(() => {
-    if (!app.state.uid) {
+    if (!app.state.uid || !app.state.initialized) {
       return;
     }
     fetchLocation(app.state.uid).then(() => {});
-  }, [app.state.uid]);
+  }, [app.state.uid, app.state.initialized]);
 
   const onSubmit = async values => {
-    await firebase
-      .database()
-      .ref(`locations/${app.state.uid}`)
-      .set({
-        ...values,
-      });
+    await app.actions.setLocation(values);
   };
+
   const onFinishFailed = errorInfo => {
     alert(JSON.stringify(errorInfo, null, 2));
   };

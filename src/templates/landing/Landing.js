@@ -1,11 +1,18 @@
-import React, { Fragment, useCallback, useEffect, useState } from "react";
+import React, {
+  Fragment,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import styled from "styled-components";
 import { Button, Form, Input, Result } from "antd";
-import firebase from "firebase";
 import qs from "query-string";
+import { Context } from "../../Context";
 
 const Landing = props => {
   const { location } = props;
+  const app = useContext(Context);
   const { search } = location;
   const { location_id } = qs.parse(search);
   const [userInfo, setUserInfo] = useState(null);
@@ -13,20 +20,18 @@ const Landing = props => {
   const [signStatus, setSignStatus] = useState(null);
   const [form] = Form.useForm();
 
-  const fetchLocation = useCallback(async uid => {
-    const resp = (
-      await firebase.database().ref(`locations/${uid}`).get()
-    ).val();
+  const fetchLocation = useCallback(async locationId => {
+    const resp = await app.actions.getLocation(locationId);
     setLocationInfo(resp);
     form.setFieldsValue(resp);
   }, []);
 
   useEffect(() => {
-    if (!location_id) {
+    if (!location_id || !app.state.initialized) {
       return;
     }
     fetchLocation(location_id).then(() => {});
-  }, [location_id]);
+  }, [location_id, app.state.initialized]);
 
   useEffect(() => {
     if (typeof window) {
@@ -37,16 +42,12 @@ const Landing = props => {
   }, []);
 
   const onSign = async () => {
-    firebase
-      .database()
-      .ref(`records/${location_id}`)
-      .push({ ...userInfo, created: Date.now() })
-      .then(() => {
-        setSignStatus("success");
+    setSignStatus(
+      await app.actions.sign({
+        locationId: location_id,
+        userInfo: userInfo,
       })
-      .catch(() => {
-        setSignStatus("error");
-      });
+    );
   };
 
   const onSubmit = values => {
