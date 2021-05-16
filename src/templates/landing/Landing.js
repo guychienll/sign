@@ -62,12 +62,12 @@ const Landing = props => {
   return (
     <Wrapper>
       {!location_id && (
-        <Result status="warning" title="無店家資訊" extra={[]} />
+        <Result status="warning" title="無地點資訊" extra={[]} />
       )}
       {location_id && !signStatus && (
         <Fragment>
           {!locationInfo && (
-            <div className="location-name">獲取店家資訊中...</div>
+            <div className="location-name">獲取地點資訊中...</div>
           )}
           {locationInfo && (
             <div className="location-name">{locationInfo.locationName}</div>
@@ -84,20 +84,20 @@ const Landing = props => {
             }}
           >
             <Form.Item
-              label="使用者名稱"
+              label="姓名(Full Name)"
               name="username"
               rules={[
-                { required: true, message: "Please input your username!" },
+                { required: true, message: "請輸入姓名" },
               ]}
             >
               <Input />
             </Form.Item>
 
             <Form.Item
-              label="使用者聯絡電話"
+              label="手機(Phone)"
               name="phone"
               rules={[
-                { required: true, message: "Please input your username!" },
+                { required: true, message: "請輸入手機" },
               ]}
             >
               <Input />

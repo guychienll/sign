@@ -32,8 +32,7 @@ const Admin = () => {
 
   useEffect(() => {
     if (typeof document && locationInfo) {
-      const qrcode = document.querySelector("#qrcode");
-      const link = qrcode
+      const qrcode = document.querySelector("#qrcode"); const link = qrcode
         .toDataURL("image/png")
         .replace("image/png", "image/octet-stream");
       setQrCodeLink(link);
@@ -124,7 +123,7 @@ const Admin = () => {
               await app.actions.exportRecords(app.state.uid);
             }}
           >
-            匯出紀錄
+            匯出實名制紀錄
           </Button>
         </Fragment>
       )}
@@ -140,7 +139,7 @@ const Admin = () => {
         </Button>
       ) : (
         <Button
-          style={{ width: "80%" }}
+          style={{ width: "80%", marginTop: "auto" }}
           onClick={() => {
             app.actions.logout();
           }}
