@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import styled from "styled-components";
-import { Button, Form, Input, Result } from "antd";
+import { Button, Form, Input, Result, Spin } from "antd";
 import qs from "query-string";
 import { Context } from "../../Context";
 
@@ -61,71 +61,78 @@ const Landing = props => {
 
   return (
     <Wrapper>
-      {!location_id && (
-        <Result status="warning" title="無店家資訊" extra={[]} />
-      )}
-      {location_id && !signStatus && (
+      {!app.state.initialized && <Spin />}
+      {app.state.initialized && (
         <Fragment>
-          {!locationInfo && (
-            <div className="location-name">獲取店家資訊中...</div>
+          {!location_id && (
+            <Result status="warning" title="無店家資訊" extra={[]} />
           )}
-          {locationInfo && (
-            <div className="location-name">{locationInfo.locationName}</div>
+          {location_id && !signStatus && (
+            <Fragment>
+              {!locationInfo && (
+                <div className="location-name">獲取店家資訊中...</div>
+              )}
+              {locationInfo && (
+                <div className="location-name">{locationInfo.locationName}</div>
+              )}
+              <Form
+                form={form}
+                name="basic"
+                initialValues={userInfo}
+                onFinish={onSubmit}
+                onFinishFailed={onFinishFailed}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <Form.Item
+                  label="使用者名稱"
+                  name="username"
+                  rules={[
+                    { required: true, message: "Please input your username!" },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+
+                <Form.Item
+                  label="使用者聯絡電話"
+                  name="phone"
+                  rules={[
+                    { required: true, message: "Please input your username!" },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+
+                {userInfo ? (
+                  <Form.Item>
+                    <Button style={{ width: "100%" }} onClick={onSign}>
+                      一鍵實名制
+                    </Button>
+                  </Form.Item>
+                ) : (
+                  <Form.Item>
+                    <Button style={{ width: "100%" }} htmlType="submit">
+                      儲存資訊
+                    </Button>
+                  </Form.Item>
+                )}
+              </Form>
+            </Fragment>
           )}
-          <Form
-            form={form}
-            name="basic"
-            initialValues={userInfo}
-            onFinish={onSubmit}
-            onFinishFailed={onFinishFailed}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <Form.Item
-              label="使用者名稱"
-              name="username"
-              rules={[
-                { required: true, message: "Please input your username!" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="使用者聯絡電話"
-              name="phone"
-              rules={[
-                { required: true, message: "Please input your username!" },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            {userInfo ? (
-              <Form.Item>
-                <Button style={{ width: "100%" }} onClick={onSign}>
-                  一鍵實名制
-                </Button>
-              </Form.Item>
-            ) : (
-              <Form.Item>
-                <Button style={{ width: "100%" }} htmlType="submit">
-                  儲存資訊
-                </Button>
-              </Form.Item>
-            )}
-          </Form>
+          {signStatus && (
+            <Result
+              status={signStatus}
+              title={
+                signStatus === "success" ? "實名制登記成功" : "實名制登記失敗"
+              }
+              subTitle=""
+              extra={[]}
+            />
+          )}
         </Fragment>
-      )}
-      {signStatus && (
-        <Result
-          status={signStatus}
-          title={signStatus === "success" ? "實名制登記成功" : "實名制登記失敗"}
-          subTitle=""
-          extra={[]}
-        />
       )}
     </Wrapper>
   );

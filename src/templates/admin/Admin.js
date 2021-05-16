@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import styled from "styled-components";
 import QRCode from "qrcode.react";
-import { Button, Empty, Form, Input } from "antd";
+import { Button, Empty, Form, Input, Spin } from "antd";
 import { Context } from "../../Context";
 
 // const columns = ["username", "phone", "created"];
@@ -58,92 +58,103 @@ const Admin = () => {
   };
   return (
     <Wrapper>
-      {app.state.uid && (
+      {!app.state.initialized && <Spin />}
+      {app.state.initialized && (
         <Fragment>
-          {locationInfo && (
-            <QRCode
-              value={`${window.location.origin}/?location_id=${app.state.uid}`}
-              style={{ marginBottom: 24 }}
-            />
-          )}
-          {!locationInfo && <Empty description={false} />}
-          <Form
-            form={form}
-            name="basic"
-            initialValues={locationInfo}
-            onFinish={onSubmit}
-            onFinishFailed={onFinishFailed}
-          >
-            <Form.Item
-              label="地點名稱"
-              name="locationName"
-              rules={[{ required: true, message: "請輸入地點名稱" }]}
-            >
-              <Input
-                onChange={e => {
-                  setLocationInfo({
-                    ...locationInfo,
-                    username: e.target.value,
-                  });
-                }}
-              />
-            </Form.Item>
-
-            <Form.Item
-              label="地點聯絡電話"
-              name="locationPhone"
-              rules={[{ required: true, message: "請輸入地點聯絡電話" }]}
-            >
-              <Input
-                onChange={e => {
-                  setLocationInfo({ ...locationInfo, phone: e.target.value });
-                }}
-              />
-            </Form.Item>
-
-            <Form.Item>
-              <Button
-                style={{ width: "100%", marginBottom: 20 }}
-                htmlType="submit"
+          {app.state.uid && (
+            <Fragment>
+              {locationInfo && (
+                <QRCode
+                  value={`${window.location.origin}/?location_id=${app.state.uid}`}
+                  style={{ marginBottom: 24 }}
+                />
+              )}
+              {!locationInfo && <Empty description={false} />}
+              <Form
+                form={form}
+                name="basic"
+                initialValues={locationInfo}
+                onFinish={onSubmit}
+                onFinishFailed={onFinishFailed}
               >
-                儲存地點資料
+                <Form.Item
+                  label="地點名稱"
+                  name="locationName"
+                  rules={[{ required: true, message: "請輸入地點名稱" }]}
+                >
+                  <Input
+                    onChange={e => {
+                      setLocationInfo({
+                        ...locationInfo,
+                        username: e.target.value,
+                      });
+                    }}
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  label="地點聯絡電話"
+                  name="locationPhone"
+                  rules={[{ required: true, message: "請輸入地點聯絡電話" }]}
+                >
+                  <Input
+                    onChange={e => {
+                      setLocationInfo({
+                        ...locationInfo,
+                        phone: e.target.value,
+                      });
+                    }}
+                  />
+                </Form.Item>
+
+                <Form.Item>
+                  <Button
+                    style={{ width: "100%", marginBottom: 20 }}
+                    htmlType="submit"
+                  >
+                    儲存地點資料
+                  </Button>
+                </Form.Item>
+              </Form>
+
+              <Button
+                style={{ width: "80%", marginBottom: 20 }}
+                onClick={() => {}}
+              >
+                下載 QR Code
               </Button>
-            </Form.Item>
-          </Form>
 
-          <Button style={{ width: "80%", marginBottom: 20 }} onClick={() => {}}>
-            下載 QR Code
-          </Button>
+              <Button
+                style={{ width: "80%", marginBottom: 20 }}
+                onClick={async () => {
+                  await app.actions.exportRecords(app.state.uid);
+                }}
+              >
+                匯出紀錄
+              </Button>
+            </Fragment>
+          )}
 
-          <Button
-            style={{ width: "80%", marginBottom: 20 }}
-            onClick={async () => {
-              await app.actions.exportRecords(app.state.uid);
-            }}
-          >
-            匯出紀錄
-          </Button>
+          {!app.state.uid ? (
+            <Button
+              style={{ width: "80%" }}
+              onClick={() => {
+                app.actions.login();
+              }}
+            >
+              使用 google 登入 / 註冊
+            </Button>
+          ) : (
+            <Button
+              style={{ width: "80%" }}
+              onClick={() => {
+                app.actions.logout();
+              }}
+            >
+              登出
+            </Button>
+          )}
         </Fragment>
-      )}
-
-      {!app.state.uid ? (
-        <Button
-          style={{ width: "80%" }}
-          onClick={() => {
-            app.actions.login();
-          }}
-        >
-          使用 google 登入 / 註冊
-        </Button>
-      ) : (
-        <Button
-          style={{ width: "80%" }}
-          onClick={() => {
-            app.actions.logout();
-          }}
-        >
-          登出
-        </Button>
       )}
     </Wrapper>
   );
