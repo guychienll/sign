@@ -10,7 +10,6 @@ import QRCode from "qrcode.react";
 import { Button, Empty, Form, Input } from "antd";
 import firebase from "firebase";
 import { Context } from "../../Context";
-import { HOST } from "../../constants";
 
 const columns = ['username', 'phone', 'created']
 const dataToCsv = data => {
@@ -72,7 +71,7 @@ const Admin = () => {
         <Fragment>
           {locationInfo && (
             <QRCode
-              value={`${HOST}?location_id=${app.state.uid}`}
+              value={`${window.location.origin}/?location_id=${app.state.uid}`}
               style={{ marginBottom: 24 }}
             />
           )}
