@@ -4,8 +4,6 @@ import { Button, Form, Input, Result } from "antd";
 import firebase from "firebase";
 import qs from "query-string";
 
-firebase.auth().useDeviceLanguage();
-
 const Landing = props => {
   const { location } = props;
   const { search } = location;

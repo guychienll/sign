@@ -23,6 +23,21 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
   }
 };
 
+exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+  if (stage === "build-html" || stage === "develop-html") {
+    actions.setWebpackConfig({
+      module: {
+        rules: [
+          {
+            test: /firebase/,
+            use: loaders.null(),
+          },
+        ],
+      },
+    });
+  }
+};
+
 exports.createPages = async ({ actions }) => {
   const { createPage } = actions;
 

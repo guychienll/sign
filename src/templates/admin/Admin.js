@@ -12,8 +12,6 @@ import firebase from "firebase";
 import { Context } from "../../Context";
 import { HOST } from "../../constants";
 
-firebase.auth().useDeviceLanguage();
-
 const Admin = () => {
   const app = useContext(Context);
   const [form] = Form.useForm();
