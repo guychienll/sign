@@ -44,14 +44,14 @@ export const Provider = props => {
   console.log(process.env.PROJECT_ID);
   useEffect(() => {
     const firebaseConfig = {
-      apiKey: process.env.API_KEY,
-      authDomain: process.env.AUTH_DOMAIN,
-      databaseURL: process.env.DATABASE_URL,
-      projectId: process.env.PROJECT_ID,
-      storageBucket: process.env.STORAGE_BUCKET,
-      messagingSenderId: process.env.MESSAGING_SENDERID,
-      appId: process.env.APP_ID,
-      measurementId: process.env.MEASUREMENT_ID,
+      apiKey: process.env.GATSBY_API_KEY,
+      authDomain: process.env.GATSBY_AUTH_DOMAIN,
+      databaseURL: process.env.GATSBY_DATABASE_URL,
+      projectId: process.env.GATSBY_PROJECT_ID,
+      storageBucket: process.env.GATSBY_STORAGE_BUCKET,
+      messagingSenderId: process.env.GATSBY_MESSAGING_SENDERID,
+      appId: process.env.GATSBY_APP_ID,
+      measurementId: process.env.GATSBY_MEASUREMENT_ID,
     };
     const app = firebase.initializeApp(firebaseConfig);
     app.auth().useDeviceLanguage();
