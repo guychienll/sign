@@ -41,6 +41,7 @@ export const Provider = props => {
   const authService = useRef(null);
   const databaseService = useRef(null);
 
+  console.log(process.env.PROJECT_ID);
   useEffect(() => {
     const firebaseConfig = {
       apiKey: process.env.API_KEY,
