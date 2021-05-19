@@ -19,13 +19,16 @@ export const download = (filename, uri) => {
   } else {
     window.open(uri);
   }
-}
+};
 
 const columns = ["username", "phone", "created"];
 const dataToCsv = (headers, data) => {
   const content = data.map(wrapper => wrapper.join(",")).join("\n");
   const header = headers.join(",");
-  download("records.csv", encodeURI(`data:text/csv;charset=utf-8,${header}\n${content}`));
+  download(
+    "records.csv",
+    encodeURI(`data:text/csv;charset=utf-8,${header}\n${content}`)
+  );
 };
 
 export const Provider = props => {
@@ -40,14 +43,14 @@ export const Provider = props => {
 
   useEffect(() => {
     const firebaseConfig = {
-      apiKey: "AIzaSyDjQ0XQ-MoFukRYCoOqaVePWilAZm6sy_w",
-      authDomain: "sign-f6dd6.firebaseapp.com",
-      databaseURL: "https://sign-f6dd6-default-rtdb.firebaseio.com",
-      projectId: "sign-f6dd6",
-      storageBucket: "sign-f6dd6.appspot.com",
-      messagingSenderId: "244113820790",
-      appId: "1:244113820790:web:48075a9086b11a267f6357",
-      measurementId: "G-S1P5XE8VZQ",
+      apiKey: process.env.API_KEY,
+      authDomain: process.env.AUTH_DOMAIN,
+      databaseURL: process.env.DATABASE_URL,
+      projectId: process.env.PROJECT_ID,
+      storageBucket: process.env.STORAGE_BUCKET,
+      messagingSenderId: process.env.MESSAGING_SENDERID,
+      appId: process.env.APP_ID,
+      measurementId: process.env.MEASUREMENT_ID,
     };
     const app = firebase.initializeApp(firebaseConfig);
     app.auth().useDeviceLanguage();
