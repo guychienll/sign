@@ -26,7 +26,7 @@ npm install
 npm start
 ```
 
-open [http://localhost:8000/](http://localhost:8000/) for running locally reactconf-tv
+open [http://localhost:8000/](http://localhost:8000/) for running locally sign
 
 ## Contribute
 
